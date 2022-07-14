@@ -1,8 +1,8 @@
-from requests import delete
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, permissions, authentication
 
 from .models import Product
 from .serializers import ProductSerializer
+from .permissions import IsStaffEditorPermission
 
 
 # ------- Generics API's juntas no Mixin -------
@@ -62,6 +62,8 @@ class ProductDestroyAPIView(generics.DestroyAPIView):
 class ProductListCreateAPIView(generics.ListCreateAPIView):
   queryset = Product.objects.all()
   serializer_class = ProductSerializer
+  authentication_classes = [authentication.SessionAuthentication]
+  permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
   def perform_create(self, serializer):
     title = serializer.validated_data.get('title')
