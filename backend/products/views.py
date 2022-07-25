@@ -73,11 +73,19 @@ class ProductListCreateAPIView(
   serializer_class = ProductSerializer    
 
   def perform_create(self, serializer):
+    user = self.request.user
     title = serializer.validated_data.get('title')
     content = serializer.validated_data.get('content')
     if content == None:
       content = title
-    serializer.save(content=content)
+    serializer.save(user=user, content=content)
+
+  def get_queryset(self, *args, **kwargs):
+    queryset = super().get_queryset(*args, **kwargs)
+    user = self.request.user
+    if not user.is_authenticated:
+      return Product.objects.none()
+    return queryset.filter(user=user)
 
 
 class ProductDetailAPIView(
