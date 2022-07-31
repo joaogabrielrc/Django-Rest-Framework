@@ -11,7 +11,7 @@ from .views import (
 
 urlpatterns = [
   path('', ProductListCreateAPIView.as_view()),
-  path('<int:pk>/', ProductDetailAPIView.as_view()),
+  path('<int:pk>/', ProductDetailAPIView.as_view(), name='product-detail'),
   path('<int:pk>/update/', ProductUpdateAPIView.as_view()),
   path('<int:pk>/delete/', ProductDeleteAPIView.as_view())
 ]
