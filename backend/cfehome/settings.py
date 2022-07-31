@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b_aln=vcpt4f*^^=!7h91phytk)bo(_zsw=l8uj9*vrsr3om74'
+SECRET_KEY = 'django-insecure-s^$(6$)w3_y0xuw=-hfn!thw)$#i7&jz^*%zbvwk9jpvd&75k2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -25,10 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'rest_framework',
-    'rest_framework.authtoken',
-
     'api',
     'products'
 ]
@@ -117,13 +114,3 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        "rest_framework.authentication.SessionAuthentication",
-        "api.authentication.TokenAuthentication"                
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
-    ]
-}
