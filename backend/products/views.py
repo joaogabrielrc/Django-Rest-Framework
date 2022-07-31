@@ -1,6 +1,5 @@
-from rest_framework import generics, mixins, permissions, authentication
+from rest_framework import generics, mixins, permissions
 
-from api.authentication import TokenAuthentication
 from .models import Product
 from .serializers import ProductSerializer  
 from .permissions import IsStaffEditorPermission
@@ -10,15 +9,8 @@ from .permissions import IsStaffEditorPermission
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
   queryset = Product.objects.all()
-  serializer_class = ProductSerializer
-  authentication_classes = [
-    authentication.SessionAuthentication, 
-    TokenAuthentication
-  ]
-  permission_classes = [
-    permissions.IsAdminUser, 
-    IsStaffEditorPermission
-  ]  
+  serializer_class = ProductSerializer  
+  permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
   def perform_create(self, serializer):
     title = serializer.validated_data.get('title')
@@ -34,16 +26,19 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
 class ProductDetailAPIView(generics.RetrieveAPIView):
   queryset = Product.objects.all()
   serializer_class = ProductSerializer
+  permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
 
 class ProductUpdateAPIView(generics.UpdateAPIView):
   queryset = Product.objects.all()
   serializer_class = ProductSerializer
+  permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
 
 class ProductDeleteAPIView(generics.DestroyAPIView):
   queryset = Product.objects.all()
   serializer_class = ProductSerializer
+  permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
   def perform_destroy(self, instance):
     instance.is_active = False
