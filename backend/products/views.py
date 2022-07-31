@@ -1,16 +1,18 @@
-from rest_framework import generics, mixins, permissions
+from rest_framework import generics, mixins
 
+from api.mixins import StaffEditorPermissionMixin
 from .models import Product
 from .serializers import ProductSerializer  
-from .permissions import IsStaffEditorPermission
 
 
 # Separate APIs View
 
-class ProductListCreateAPIView(generics.ListCreateAPIView):
+class ProductListCreateAPIView(
+  StaffEditorPermissionMixin,
+  generics.ListCreateAPIView
+):
   queryset = Product.objects.all()
-  serializer_class = ProductSerializer  
-  permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
+  serializer_class = ProductSerializer    
 
   def perform_create(self, serializer):
     title = serializer.validated_data.get('title')
@@ -23,22 +25,28 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     return self.queryset.order_by('title')
 
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
+class ProductDetailAPIView(
+  StaffEditorPermissionMixin,
+  generics.RetrieveAPIView
+):
   queryset = Product.objects.all()
   serializer_class = ProductSerializer
-  permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
 
-class ProductUpdateAPIView(generics.UpdateAPIView):
+class ProductUpdateAPIView(
+  StaffEditorPermissionMixin,
+  generics.UpdateAPIView
+):
   queryset = Product.objects.all()
   serializer_class = ProductSerializer
-  permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
 
-class ProductDeleteAPIView(generics.DestroyAPIView):
+class ProductDeleteAPIView(
+  StaffEditorPermissionMixin,
+  generics.DestroyAPIView
+):
   queryset = Product.objects.all()
   serializer_class = ProductSerializer
-  permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
   def perform_destroy(self, instance):
     instance.is_active = False
