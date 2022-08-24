@@ -1,7 +1,7 @@
 from rest_framework import permissions
 
 
-class IsStaffEditorPermission(permissions.DjangoModelPermissions):
+class IsStaffEditorPermission(permissions.DjangoModelPermissions):  
   perms_map = {
     'GET': ['%(app_label)s.view_%(model_name)s'],
     'OPTIONS': [],
@@ -11,4 +11,9 @@ class IsStaffEditorPermission(permissions.DjangoModelPermissions):
     'PATCH': ['%(app_label)s.change_%(model_name)s'],
     'DELETE': ['%(app_label)s.delete_%(model_name)s'],
   }
+
+  def has_permission(self, request, view):
+    if request.user.is_staff:
+      return True
+    return super().has_permission(request, view)
     
