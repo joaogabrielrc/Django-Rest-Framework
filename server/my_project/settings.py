@@ -24,6 +24,7 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'rest_framework',
+    'rest_framework.authtoken',
 
     # Local apps
     'api',
@@ -107,3 +108,13 @@ STATIC_URL = '/static/'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': [    
+    'rest_framework.authentication.SessionAuthentication',
+    'api.authentication.TokenAuthentication',
+  ],
+  'DEFAULT_PERMISSION_CLASSES': [
+    'rest_framework.permissions.IsAuthenticated'
+  ]
+}

@@ -17,7 +17,7 @@ class ProductSerializer(serializers.ModelSerializer):
       'discount'      
     ]
 
-  def get_discount(self, object):    
+  def get_discount(self, object) -> str | None:    
     if not isinstance(object, Product):
       return None    
     discount = f"{int(object.get_discount() * 100)}%"    
